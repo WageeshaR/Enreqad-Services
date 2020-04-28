@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/enreqad-admin-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-admin-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-advertiser-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-advertiser-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-enquirer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-enquirer-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-proxy-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-requirer-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-requirer-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-user-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/enreqad-user-service/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

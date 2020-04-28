@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="enreqad-advertiser-service" />
+        <module name="enreqad-user-service" />
+        <module name="enreqad-admin-service" />
+        <module name="enreqad-enquirer-service" />
+        <module name="enreqad-requirer-service" />
+        <module name="enreqad-proxy-gateway" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="enreqad-admin-service" target="1.8" />
+      <module name="enreqad-advertiser-service" target="1.8" />
+      <module name="enreqad-enquirer-service" target="1.8" />
+      <module name="enreqad-eureka-discovery-service" target="1.8" />
+      <module name="enreqad-proxy-gateway" target="1.8" />
+      <module name="enreqad-requirer-service" target="1.8" />
+      <module name="enreqad-user-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="enreqad-admin-service" options="-parameters" />
+      <module name="enreqad-advertiser-service" options="-parameters" />
+      <module name="enreqad-enquirer-service" options="-parameters" />
+      <module name="enreqad-eureka-discovery-service" options="-parameters" />
+      <module name="enreqad-proxy-gateway" options="-parameters" />
+      <module name="enreqad-requirer-service" options="-parameters" />
+      <module name="enreqad-user-service" options="-parameters" />
+    </option>
+  </component>
+</project>
