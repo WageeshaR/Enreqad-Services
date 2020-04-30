@@ -4,7 +4,7 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "auth_roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,7 @@
 package com.enreqad.user.controller.payload;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -22,6 +24,7 @@ public class UserProfileRequest {
     private String username;
 
     @NotBlank
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Date birthday;
 
     @NotBlank

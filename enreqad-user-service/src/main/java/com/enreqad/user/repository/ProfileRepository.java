@@ -1,6 +1,6 @@
-package com.enreqad.user.entity.repository;
+package com.enreqad.user.repository;
 
-import com.enreqad.user.entity.ProfileEntity;
+import com.enreqad.user.entity.profile.ProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

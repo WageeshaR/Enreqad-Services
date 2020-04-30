@@ -1,14 +1,17 @@
-package com.enreqad.user.entity;
+package com.enreqad.user.entity.profile;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(schema = "enreqad_user", name = "profile_entity")
 @EntityListeners(AuditingEntityListener.class)
 public class ProfileEntity {
+
     @Id
     @Column(name = "user_id", nullable = false)
     private long userId;
@@ -38,6 +41,16 @@ public class ProfileEntity {
     @Column(name = "display_picture", nullable = true)
     @Lob
     private Byte[] display_picture;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<UserRole> roles = new HashSet<>();
+
+    public ProfileEntity(){
+
+    };
 
     public ProfileEntity(
             long id,
@@ -132,5 +145,13 @@ public class ProfileEntity {
 
     public void setDisplay_picture(Byte[] display_picture) {
         this.display_picture = display_picture;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
     }
 }
