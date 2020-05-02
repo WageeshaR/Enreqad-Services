@@ -9,13 +9,13 @@ import javax.persistence.*;
 public class UserRole {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(length = 10)
-    private UserRoleEnum roleEnum;
+    private UserRoleEnum name;
 
     public long getId() {
         return id;
@@ -25,11 +25,11 @@ public class UserRole {
         this.id = id;
     }
 
-    public UserRoleEnum getRoleEnum() {
-        return roleEnum;
+    public UserRoleEnum getName() {
+        return name;
     }
 
-    public void setRoleEnum(UserRoleEnum roleEnum) {
-        this.roleEnum = roleEnum;
+    public void setName(UserRoleEnum name) {
+        this.name = name;
     }
 }

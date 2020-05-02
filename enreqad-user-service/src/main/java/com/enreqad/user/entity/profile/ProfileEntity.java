@@ -32,15 +32,24 @@ public class ProfileEntity {
     @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "res_country", nullable = true)
+    @Column(name = "res_country")
     private String resCountry;
 
     @Column(name = "opr_country", nullable = false)
     private String oprCountry;
 
-    @Column(name = "display_picture", nullable = true)
+    @Column(name = "display_picture")
     @Lob
     private Byte[] display_picture;
+
+    @Column(name = "enable_enq", nullable = false)
+    private Boolean enableEnq = false;
+
+    @Column(name = "enable_req", nullable = false)
+    private Boolean enableReq = false;
+
+    @Column(name = "enable_adv", nullable = false)
+    private Boolean enableAdv = false;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
@@ -48,9 +57,7 @@ public class ProfileEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<UserRole> roles = new HashSet<>();
 
-    public ProfileEntity(){
-
-    };
+    public ProfileEntity(){}
 
     public ProfileEntity(
             long id,
@@ -145,6 +152,30 @@ public class ProfileEntity {
 
     public void setDisplay_picture(Byte[] display_picture) {
         this.display_picture = display_picture;
+    }
+
+    public Boolean getEnableEnq() {
+        return enableEnq;
+    }
+
+    public void setEnableEnq(Boolean enableEnq) {
+        this.enableEnq = enableEnq;
+    }
+
+    public Boolean getEnableReq() {
+        return enableReq;
+    }
+
+    public void setEnableReq(Boolean enableReq) {
+        this.enableReq = enableReq;
+    }
+
+    public Boolean getEnableAdv() {
+        return enableAdv;
+    }
+
+    public void setEnableAdv(Boolean enableAdv) {
+        this.enableAdv = enableAdv;
     }
 
     public Set<UserRole> getRoles() {
