@@ -3,7 +3,6 @@ package com.enreqad.user.controller;
 import com.enreqad.user.controller.payload.ApiResponse;
 import com.enreqad.user.controller.payload.UserProfileRequest;
 import com.enreqad.user.entity.profile.ProfileEntity;
-import com.enreqad.user.entity.profile.UserRole;
 import com.enreqad.user.entity.profile.UserRoleEnum;
 import com.enreqad.user.kafka.producer.Producer;
 import com.enreqad.user.repository.ProfileRepository;
@@ -65,48 +64,21 @@ public class UserProfileController {
             ProfileEntity profileEntity = profileRepository.findById(userId).orElseThrow( () -> new Exception("Failed to fetch profile data for the user-id: " + userId) );
 
             if (role.contains(GlobalConstants.ENQUIRER_SERVICE)){
-                UserRole enqUser = userRoleRepository.findByName(UserRoleEnum.ENQ_USER).orElseThrow( () -> new Exception("User role " + UserRoleEnum.ENQ_USER + " is not set"));
-                UserRole enqAdmin = userRoleRepository.findByName(UserRoleEnum.ENQ_ADMIN).orElseThrow( () -> new Exception("User role " + UserRoleEnum.ENQ_ADMIN + " is not set"));
-                if (role.equals("enq-user"))
-                {
-                    if (profileEntity.getRoles().contains(enqAdmin)) profileEntity.getRoles().remove(enqAdmin);
-                    profileEntity.getRoles().add(enqUser);
-                }
-                if (role.equals("enq-admin"))
-                {
-                    if (profileEntity.getRoles().contains(enqUser)) profileEntity.getRoles().remove(enqUser);
-                    profileEntity.getRoles().add(enqAdmin);
-                }
+                ControllerUtils.validateAndSetRole(
+                        profileEntity, role, GlobalConstants.ENQUIRER_SERVICE, userRoleRepository, UserRoleEnum.ENQ_USER, UserRoleEnum.ENQ_ADMIN
+                );
             }
 
             if (role.contains(GlobalConstants.REQUIRER_SERVICE)){
-                UserRole reqUser = userRoleRepository.findByName(UserRoleEnum.REQ_USER).orElseThrow( () -> new Exception("User role " + UserRoleEnum.REQ_USER + " is not set"));
-                UserRole reqAdmin = userRoleRepository.findByName(UserRoleEnum.REQ_ADMIN).orElseThrow( () -> new Exception("User role " + UserRoleEnum.REQ_ADMIN + " is not set"));
-                if (role.equals("req-user"))
-                {
-                    if (profileEntity.getRoles().contains(reqAdmin)) profileEntity.getRoles().remove(reqAdmin);
-                    profileEntity.getRoles().add(reqUser);
-                }
-                if (role.equals("req-admin"))
-                {
-                    if (profileEntity.getRoles().contains(reqUser)) profileEntity.getRoles().remove(reqUser);
-                    profileEntity.getRoles().add(reqAdmin);
-                }
+                ControllerUtils.validateAndSetRole(
+                        profileEntity, role, GlobalConstants.REQUIRER_SERVICE, userRoleRepository, UserRoleEnum.REQ_USER, UserRoleEnum.REQ_ADMIN
+                );
             }
 
             if (role.contains(GlobalConstants.ADVERTISER_SERVICE)){
-                UserRole advUser = userRoleRepository.findByName(UserRoleEnum.ADV_USER).orElseThrow( () -> new Exception("User role " + UserRoleEnum.ADV_USER + " is not set"));
-                UserRole advAdmin = userRoleRepository.findByName(UserRoleEnum.ADV_ADMIN).orElseThrow( () -> new Exception("User role " + UserRoleEnum.ADV_ADMIN + " is not set"));
-                if (role.equals("adv-user"))
-                {
-                    if (profileEntity.getRoles().contains(advAdmin)) profileEntity.getRoles().remove(advAdmin);
-                    profileEntity.getRoles().add(advUser);
-                }
-                if (role.equals("adv-admin"))
-                {
-                    if (profileEntity.getRoles().contains(advUser)) profileEntity.getRoles().remove(advUser);
-                    profileEntity.getRoles().add(advAdmin);
-                }
+                ControllerUtils.validateAndSetRole(
+                        profileEntity, role, GlobalConstants.ADVERTISER_SERVICE, userRoleRepository, UserRoleEnum.ADV_USER, UserRoleEnum.ADV_ADMIN
+                );
             }
 
             profileRepository.flush();
@@ -134,6 +106,7 @@ public class UserProfileController {
             else return new ResponseEntity( new ApiResponse(false, "Wrong profile type"), HttpStatus.BAD_REQUEST);
             producer.sendMessage( ControllerUtils.populateForNewUser(profileEntity, enableProfile) );
             profileRepository.flush();
+            if (val) setUserRole(enableProfile + "-user", userId);
 
             return new ResponseEntity(new ApiResponse(true, "Profile enabled successfully"), HttpStatus.OK);
 
