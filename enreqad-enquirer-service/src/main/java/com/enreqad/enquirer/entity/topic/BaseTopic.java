@@ -5,7 +5,7 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
 @Entity
-@Table(schema = "enreqad_enquirer", name = "enq_topic")
+@Table(schema = "enreqad_enquirer", name = "topic")
 public class BaseTopic {
 
     @Id

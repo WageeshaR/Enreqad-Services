@@ -16,4 +16,17 @@ public class GlobalConstants {
 
     public static final String KAFKA_TOPIC_NEW_USER = "newuser";
 
+    public static final int ENQ_POST_VISIBILITY_PUBLIC = 111;
+    public static final int ENQ_POST_VISIBILITY_WITHIN = 222;
+    public static final int ENQ_POST_VISIBILITY_PRIVATE = 333;
+
+    public static final int ENQ_POST_PERSIST_SUCCESS = 2000;
+    public static final int ENQ_POST_PERSIST_FAILED = 5000;
+    public static final int ENQ_POST_PERSIST_FAILED_IMAGES = 3000;
+
+    public static final String SUCCESS_MESSAGE = "Success";
+    public static final String FAILED_MESSAGE = "Unsuccessful";
+
+    public static final int SUCCESS = 100;
+    public static final int FAILED = 200;
 }

@@ -3,7 +3,7 @@ package com.enreqad.enquirer.entity.topic;
 public enum BaseTopicEnum {
 
     AUTO,
-    IT_N_COM,
+    COM_IT,
     CUISINE,
     X,
     Y,
