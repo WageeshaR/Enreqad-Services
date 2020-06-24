@@ -2,7 +2,7 @@ package com.enreqad.auth.payload;
 
 public class ApiResponse {
     private Boolean success;
-    private String message;
+    private Object message;
 
     public ApiResponse(Boolean success, String message) {
         this.success = success;
@@ -17,7 +17,7 @@ public class ApiResponse {
         this.success = success;
     }
 
-    public String getMessage() {
+    public Object getMessage() {
         return message;
     }
 

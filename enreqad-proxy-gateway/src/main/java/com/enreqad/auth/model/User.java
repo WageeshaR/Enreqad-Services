@@ -58,6 +58,12 @@ public class User extends DateAudit {
         this.password = password;
     }
 
+    public User(String name, String username, Long id) {
+        this.name = name;
+        this.username = username;
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

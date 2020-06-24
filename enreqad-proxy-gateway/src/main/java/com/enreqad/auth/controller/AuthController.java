@@ -11,6 +11,7 @@ import com.enreqad.auth.payload.SignUpRequest;
 import com.enreqad.auth.repository.RoleRepository;
 import com.enreqad.auth.repository.UserRepository;
 import com.enreqad.auth.security.JwtTokenProvider;
+import com.enreqad.auth.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,9 +60,11 @@ public class AuthController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        User user = new User(userPrincipal.getName(), userPrincipal.getUsername(), userPrincipal.getId());
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, user));
     }
 
     @PostMapping("/signup")
@@ -87,12 +90,14 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
 
-        User result = userRepository.save(user);
+        userRepository.save(user);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
-
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        try {
+            return authenticateUser(new LoginRequest(signUpRequest.getUsername(), signUpRequest.getPassword()));
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return new ResponseEntity(new ApiResponse(false, "User registration failed"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
