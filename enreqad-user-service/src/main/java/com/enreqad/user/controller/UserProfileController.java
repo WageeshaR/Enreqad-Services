@@ -94,21 +94,27 @@ public class UserProfileController {
     }
 
     @PostMapping("/profile/enable")
-    public ResponseEntity<?> enableProfile( @RequestHeader("user-id") long userId, @RequestParam("profile") String enableProfile, @RequestParam("val") boolean val )
+    public ResponseEntity<?> enableModule(@RequestHeader("user-id") long userId, @RequestParam("module") String enableModule, @RequestParam("enable") boolean enable )
     {
         try {
 
             ProfileEntity profileEntity = profileRepository.findById(userId).orElseThrow( () -> new Exception("Failed to fetch profile data for the user-id: " + userId));
 
-            if (enableProfile.equals(GlobalConstants.ENQUIRER_SERVICE)) profileEntity.setEnableEnq( val ? true : false );
-            else if (enableProfile.equals(GlobalConstants.REQUIRER_SERVICE)) profileEntity.setEnableReq( val ? true : false );
-            else if (enableProfile.equals(GlobalConstants.ADVERTISER_SERVICE)) profileEntity.setEnableAdv( val ? true : false );
+            if (enableModule.equals(GlobalConstants.ENQUIRER_SERVICE)) profileEntity.setEnableEnq( enable ? true : false );
+            else if (enableModule.equals(GlobalConstants.REQUIRER_SERVICE)) profileEntity.setEnableReq( enable ? true : false );
+            else if (enableModule.equals(GlobalConstants.ADVERTISER_SERVICE)) profileEntity.setEnableAdv( enable ? true : false );
             else return new ResponseEntity( new ApiResponse(false, "Wrong profile type"), HttpStatus.BAD_REQUEST);
-            producer.sendMessage( ControllerUtils.populateForNewUser(profileEntity, enableProfile) );
             profileRepository.flush();
-            if (val) setUserRole(enableProfile + "-user", userId);
-
-            return new ResponseEntity(new ApiResponse(true, "Profile enabled successfully"), HttpStatus.OK);
+            if (enable)
+            {
+                setUserRole(enableModule + "-user", userId);
+                producer.sendMessage( ControllerUtils.populateForNewUser(profileEntity, enableModule) );
+                return new ResponseEntity(new ApiResponse(true, "Profile enabled successfully"), HttpStatus.OK);
+            }
+            else
+            {
+                return new ResponseEntity(new ApiResponse(true, "Profile disabled successfully"), HttpStatus.OK);
+            }
 
         } catch ( Exception e )
         {
