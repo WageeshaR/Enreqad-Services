@@ -29,4 +29,8 @@ public class GlobalConstants {
 
     public static final int SUCCESS = 100;
     public static final int FAILED = 200;
+
+
+    public static final String STREAM_API_KEY = "fgraunjh8szq";
+    public static final String STREAM_API_SECRET = "vqatw73ydyfwg5vqxa9txcb49uhf94d6vbfdywnk6bjpesjp7ns7zs6pc8jjxa2y";
 }

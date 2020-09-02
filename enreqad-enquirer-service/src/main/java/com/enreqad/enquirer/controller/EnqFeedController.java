@@ -1,6 +1,7 @@
 package com.enreqad.enquirer.controller;
 
 import com.enreqad.enquirer.controller.payload.ApiResponse;
+import com.enreqad.enquirer.controller.payload.StreamToken;
 import com.enreqad.enquirer.entity.EnqUser;
 import com.enreqad.enquirer.entity.feed.Pub;
 import com.enreqad.enquirer.entity.feed.PubImage;
@@ -16,11 +17,14 @@ import com.enreqad.enquirer.repository.PubImageRepository;
 import com.enreqad.enquirer.repository.PubRepository;
 import com.enreqad.enquirer.util.GenericResponse;
 import com.enreqad.enquirer.util.GlobalConstants;
+import io.getstream.core.http.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.getstream.client.Client;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 @RestController
@@ -164,5 +168,20 @@ public class EnqFeedController {
             e.printStackTrace();
             return new ResponseEntity(new ApiResponse(false, "Error fetching pubs data for source user: " + userId + " and target user: " + targetUserId), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/stream-auth")
+    public ResponseEntity<?> getStreamAuth(@RequestHeader("user-id") long userId) {
+        Token userToken = null;
+        EnqUser srcUser = enqUserRepository.findById(userId).get();
+        try {
+            Client client = Client.builder(GlobalConstants.STREAM_API_KEY, GlobalConstants.STREAM_API_SECRET).build();
+            userToken = client.frontendToken(srcUser.getUsername());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        if (userToken == null) return new ResponseEntity(new ApiResponse(false, "Unable to generate stream token for user: " + userId), HttpStatus.INTERNAL_SERVER_ERROR);
+        else return new ResponseEntity(new StreamToken(userToken), HttpStatus.OK);
     }
 }
